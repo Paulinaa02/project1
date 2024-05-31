@@ -1,0 +1,102 @@
+MDScreen:
+    title: title
+    description: description
+    date_text: date_text
+    time_text: time_text
+
+    name: 'add_todo'
+
+    MDFloatLayout:
+        MDIconButton:
+            icon: 'chevron-left'
+            user_font_size: '40sp'
+            pos_hint: { 'center_y': .95 }
+            theme_text_color: 'Custom'
+            text_color: 0.678, 0.847, 0.933, 1.0
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'main'
+
+        MDLabel:
+            text: 'Add Task'
+            pos_hint: { 'center_x': .7, 'center_y': .95 }
+            font_name: 'fonts/fonts/Poppins-SemiBold.ttf'
+            font_size: '35sp'
+
+        MDTextField:
+            id: title
+            hint_text: "What needs to be done?"
+            hint_text_color_focus: 0.678, 0.847, 0.933, 1.0
+            mode: "rectangle"
+            max_text_length: 15
+            size_hint: 0.9, None
+            pos_hint: {'center_x': .5, 'center_y': .82 }
+            text_color_focus: (0, 0, 0, 1) if app.theme_cls.theme_style == 'Light' else (1, 1, 1, 1)
+            line_color_normal: 0.678, 0.847, 0.933, 1.0
+            line_color_focus: 0.678, 0.847, 0.933, 1.0
+
+        MDLabel:
+            text: 'Due Date'
+            pos_hint: { 'center_x': .55, 'center_y': .7 }
+            font_name: 'fonts/fonts/Poppins-SemiBold.ttf'
+            font_size: '16sp'
+
+        MDIconButton:
+            icon: 'calendar'
+            pos_hint: { 'center_x': .076, 'center_y': .64 }
+            on_release:
+                app.show_datepicker()
+        MDLabel:
+            id: date_text
+            text: 'Set due date'
+            font_name: 'fonts/fonts/Poppins-Regular.ttf'
+            font_size: '14sp'
+            pos_hint: { 'center_x': .66, 'center_y': .64 }
+
+        MDIconButton:
+            icon: 'bell-alert-outline'
+            pos_hint: { 'center_x': .076, 'center_y': .5 }
+            on_release:
+                app.show_timepicker()
+        MDLabel:
+            id: time_text
+            text: 'Set remainder'
+            font_name: 'fonts/fonts/Poppins-Regular.ttf'
+            font_size: '14sp'
+            pos_hint: { 'center_x': .66, 'center_y': .5 }
+
+        MDLabel:
+            text: 'Reminder'
+            pos_hint: { 'center_x': .55, 'center_y': .56 }
+            font_name: 'fonts/fonts/Poppins-SemiBold.ttf'
+            font_size: '16sp'
+
+        MDLabel:
+            text: 'Notes'
+            pos_hint: { 'center_x': .55, 'center_y': .42 }
+            font_name: 'fonts/fonts/Poppins-SemiBold.ttf'
+            font_size: '16sp'
+
+        MDTextField:
+            id: description
+            hint_text: 'Add some notes!'
+            mode: "rectangle"
+            pos_hint: { 'center_x': .5, 'center_y': .3 }
+            hint_text_color_focus: 0.678, 0.847, 0.933, 1.0
+            cursor_color: 0, 0, 0, 1
+            multiline: True
+            line_color_normal: 0.678, 0.847, 0.933, 1.0
+            line_color_focus: 0.678, 0.847, 0.933, 1.0
+            text_color_focus: (0, 0, 0, 1) if app.theme_cls.theme_style == 'Light' else (1, 1, 1, 1)
+            font_name: 'fonts/fonts/Poppins-Regular.ttf'
+            size_hint: 0.9, None
+            max_height: '160dp'
+
+        MDFloatingActionButton:
+            icon: "check-bold"
+            md_bg_color: 0.678, 0.847, 0.933, 1.0
+            elevation_normal: 8
+            pos_hint: {'center_x': .72, 'center_y': .12}
+            type: 'standard'
+            on_release:
+                app.add_todo(title.text, description.text, date_text.text, time_text.text)

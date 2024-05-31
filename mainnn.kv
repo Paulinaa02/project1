@@ -1,0 +1,212 @@
+<ToDoCard>:
+    elevation: 4
+    radius: [8]
+    size_hint_y: .1
+    md_bg_color: (1, 1, 1, 1) if app.theme_cls.theme_style == 'Light' else (0, 0, 0, 1)
+
+    MDFloatLayout:
+        id: bar
+        size_hint: .01, .9
+        pos_hint: {"center_x": .02, "center_y": .5}
+        md_bg_color: 0.678, 0.847, 0.933, 1.0
+
+    MDLabel:
+        text: root.title
+        text_color: 0, 0, 0, 1
+        markup: True
+        font_name: "fonts/fonts/Poppins-Regular.ttf"
+        font_size: "20sp"
+        size_hint_x: .8
+        pos_hint: {"center_x": .46, "center_y": .8}
+
+    MDCheckbox:
+        id: checkbox
+        size_hint: None, None
+        size: "48dp", "48dp"
+        color_active: (0.678, 0.847, 0.933, 1.0) if app.theme_cls.theme_style == 'Light' else (0.678, 0.847, 0.933, 1.0)
+        color_inactive: (0.678, 0.847, 0.933, 1.0) if app.theme_cls.theme_style == 'Light' else (0.678, 0.847, 0.933, 1.0)
+        pos_hint: {"center_x": .95, "center_y": .8}
+        on_active: app.on_complete(*args, description, bar, date_text, time_text)
+
+    MDLabel:
+        id: description
+        text: root.description
+        text_color: 0, 0, 0, 1
+        opacity:0
+        font_name: "fonts/fonts/Poppins-Regular.ttf"
+        markup: True
+        size_hint_x: .9
+        line_height: .8
+        pos_hint: {"center_x": .51, "center_y": .4}
+
+    MDLabel:
+        id: date_text
+        text: root.date_text
+        text_color: 0, 0, 0, 1
+        font_name: "fonts/fonts/Poppins-Regular.ttf"
+        markup: True
+        size_hint_x: .9
+        line_height: .8
+        pos_hint: {"center_x": .51, "center_y": .4}
+
+    MDLabel:
+        id: time_text
+        text: root.time_text
+        text_color: 0, 0, 0, 1
+        font_name: "fonts/fonts/Poppins-Regular.ttf"
+        markup: True
+        size_hint_x: .9
+        line_height: .8
+        pos_hint: {"center_x": .51, "center_y": .4}
+
+    MDIconButton:
+        id: menu
+        icon: 'dots-vertical'
+        user_font_size: '40sp'
+        pos_hint: { 'center_x': .95, 'center_y': .35 }
+        theme_text_color: 'Custom'
+        text_color: 0.678, 0.847, 0.933, 1.0
+        on_release:
+            app.open_menu(root.ids.menu, root)
+
+
+<IconListItem>:
+    IconLeftWidget:
+        icon: root.icon
+
+
+MDScreen:
+    name: "main"
+    date: date
+    todo_list: todo_list
+    second_todo: second_todo
+
+    MDBottomNavigation:
+        panel_color: 0.678, 0.847, 0.933, 1.0
+        MDBottomNavigationItem:
+            name: 'Screen_1'
+            text: 'ToDo'
+            icon: "checkbox-marked-circle-auto-outline"
+
+            MDFloatLayout:
+                MDLabel:
+                    id: label
+                    text: "My Tasks"
+                    pos_hint: {"center_x": .56, "center_y": .95 }
+                    font_name: "fonts/fonts/Poppins-SemiBold.ttf"
+                    font_size: "33sp"
+                MDLabel:
+                    id: date
+                    text: ""
+                    pos_hint: {"center_x": .565, "center_y": .89 }
+                    font_name: "fonts/fonts/Poppins-SemiBold.ttf"
+                    font_size: "18sp"
+                MDFloatingActionButton:
+                    icon: "plus-box-outline"
+                    user_font_size: "30sp"
+                    md_bg_color: 0.678, 0.847, 0.933, 1.0
+                    pos_hint: {"center_x": .84, "center_y": .925 }
+                    on_release:
+                        root.manager.transition.direction = 'left'
+                        root.manager.current = 'add_todo'
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: (1, None)
+                    height: root.height * 0.85
+                    pos_hint: {"center_x": .5, "top": 0.85}
+                    bar_width: 0
+                    GridLayout:
+                        id: todo_list
+                        cols: 1
+                        height: self.minimum_height
+                        row_default_height: 80
+                        size_hint_y: None
+                        padding: 15, 10
+                        spacing: 15, 10
+
+        MDBottomNavigationItem:
+            name: 'Screen_2'
+            text: 'AllTasks'
+            icon: "check-all"
+
+            MDFloatLayout:
+                MDLabel:
+                    id: label
+                    text: "All Tasks"
+                    pos_hint: {"center_x": .56, "center_y": .95 }
+                    font_name: "fonts/fonts/Poppins-SemiBold.ttf"
+                    font_size: "33sp"
+                ScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    size_hint: (1, None)
+                    height: root.height * 0.85
+                    pos_hint: {"center_x": .5, "top": 0.85}
+                    bar_width: 0
+                    GridLayout:
+                        id: second_todo
+                        cols: 1
+                        height: self.minimum_height
+                        row_default_height: 80
+                        size_hint_y: None
+                        padding: 15, 10
+                        spacing: 15, 10
+
+
+
+        MDBottomNavigationItem:
+            name: 'Screen_3'
+            text: 'Settings'
+            icon: "cog"
+
+            MDBoxLayout:
+                orientation: 'vertical'
+
+                MDTopAppBar:
+                    title: "Settings"
+                    specific_text_color: 0, 0, 0, 1
+                    md_bg_color: 0.678, 0.847, 0.933, 1.0
+                    font_name: "fonts/fonts/Poppins-SemiBold.ttf"
+                    font_size: "33sp"
+
+                MDFloatLayout:
+                    MDLabel:
+                        text: "Mode"
+                        pos_hint: {"center_x": .56, "center_y": .95 }
+                        font_name: "fonts/fonts/Poppins-SemiBold.ttf"
+                        font_size: "22sp"
+                    MDSwitch:
+                        pos_hint: {"center_x": .46, "center_y": .8}
+                        width: dp(48)
+                        on_active: app.checkk(*args)
+                        icon_active: "check"
+                        icon_inactive: "close"
+                        icon_active_color: 0.678, 0.847, 0.933, 1.0
+                        icon_inactive_color: 0.678, 0.847, 0.933, 1.0
+                        track_color_active: 0.678, 0.847, 0.933, 1.0
+                        thumb_color_active: 1, 1, 1, 1
+                    MDLabel:
+                        text: "Panel Theme"
+                        pos_hint: {"center_x": .56, "center_y": .65 }
+                        font_name: "fonts/fonts/Poppins-SemiBold.ttf"
+                        font_size: "22sp"
+                    MDFloatingActionButton:
+                        icon: 'brush-outline'
+                        md_bg_color: 0.678, 0.847, 0.933, 1.0
+                        elevation_normal: 8
+                        pos_hint: { 'center_x': .5, 'center_y': .5 }
+                        on_release:
+                            app.show_colorpicker()
+                    MDLabel:
+                        text: "Delete All Data"
+                        pos_hint: {"center_x": .56, "center_y": .35 }
+                        font_name: "fonts/fonts/Poppins-SemiBold.ttf"
+                        font_size: "22sp"
+                    MDFloatingActionButton:
+                        icon: 'trash-can-outline'
+                        md_bg_color: 0.678, 0.847, 0.933, 1.0
+                        elevation_normal: 8
+                        pos_hint: { 'center_x': .5, 'center_y': .2 }
+                        on_release:
+                            app.show_confirmation_dialog()
